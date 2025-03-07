@@ -7,13 +7,13 @@ public class GraphMigrationBot
 {
     private List<string> deprecatedApiPatterns = new List<string>()
     {
-        "https://graph.windows.net/",  // AAD Graph
-        "microsoft.graph.beta",        // Beta API
-        "microsoft.graph.v1.0"         // Current stable API (for future migration)
+        "https://graph.windows.net/",
+        "microsoft.graph.beta",
+        "microsoft.graph.v1.0"
     };
 
     private string apiKey;
-    private string deploymentName = "gpt-4o";
+    private string deploymentName = "gpt-4";
     // There are two different types! (Azure AI services and Azure OpenAI)
     //private string azureEndpoint = "https://h-m7xkz0pd-eastus2.cognitiveservices.azure.com";
     private string azureEndpoint = "https://ai-ms-graph-api-migration-assistant.openai.azure.com";
@@ -37,7 +37,8 @@ public class GraphMigrationBot
     public Dictionary<string,List<string>> ScanRepository(string repoPath)
     {
         Dictionary<string, List<string>> results = new();
-        var csFiles = Directory.GetFiles(repoPath, "*.cs", SearchOption.AllDirectories);
+        //var csFiles = Directory.GetFiles(repoPath, "*.cs", SearchOption.AllDirectories);
+        var csFiles = Directory.GetFiles(repoPath, "*", SearchOption.AllDirectories);
 
         foreach (var file in csFiles)
         {
@@ -56,7 +57,7 @@ public class GraphMigrationBot
                 {
                     var result = $"File: {file}, Line: {invocation.GetLocation().GetLineSpan().StartLinePosition.Line + 1}, Code: {invocationText}";
                     fileResults.Add(result);
-                    Console.WriteLine(result);
+                    Console.WriteLine(result.Split("Code:")[0] + "...");
                 }
             }
             if (fileResults.Count > 0)

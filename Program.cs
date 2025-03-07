@@ -40,7 +40,6 @@ else if (command == "identify")
 
     Console.WriteLine($"Scanning repository: {repoPath}");
     var findings = migrationBot.ScanRepository(repoPath);
-    //var findings = [" - File: C:\\Users\\jhavlicek\\source\\repos\\appworkflowservice-master-AHS\\sync_pstn_avs-appworkflowservice\\Oaa\\UnitTests\\CallController\\DialScopeUserSearchResultFilterTests.cs, Line: 79, Code: _aadTokenProvider.Setup(x => x.GraphResourceUri).Returns(\"https://graph.windows.net/\")"];
 
     if (findings.Count == 0)
     {
@@ -51,10 +50,10 @@ else if (command == "identify")
     Console.WriteLine($"\nIdentified potential migration points ({findings.Count}):");
     foreach (var finding in findings)
     {
-        Console.WriteLine($"🗎 {finding.Key}");
+        Console.WriteLine($"# {finding.Key}");
         foreach (var line in finding.Value)
         {
-            Console.WriteLine($"  ⤷ {line}");
+            Console.WriteLine($"  - {line}");
         }
     }
 
